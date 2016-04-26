@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/major"
+        style="@style/TitleFontBlack"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etFrgSearchMajor"
+        style="@style/TitleFontBlack"
+        android:hint="@string/type_major_value"
+        android:inputType="number"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/minor"
+        style="@style/TitleFontBlack"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etFrgSearchMinor"
+        style="@style/TitleFontBlack"
+        android:hint="@string/type_minor_value"
+        android:inputType="number"/>
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/common_padding_large">
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbFrgSearchEntry"
+            android:text="@string/entry_beacon"
+            style="@style/TitleFontBlack"
+            android:checked="true"
+            android:layout_marginBottom="@dimen/common_padding_medium"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rbFrgSearchAdvertising"
+            android:text="@string/advertising_beacon"
+            android:checked="false"
+            style="@style/TitleFontBlack"/>
+    </RadioGroup>
+
+
+    <LinearLayout
+        android:id="@+id/linLayTransmittingButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:id="@+id/tvFrgSearchBeacon"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search_info_about_beacon"
+            android:background="@drawable/rounded_blue"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginRight="4dp"/>
+
+        <TextView
+            android:id="@+id/tvFrgSearchStore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search_info_about_store"
+            android:background="@drawable/rounded_blue"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginLeft="4dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tvFrgSearchResult"
+        android:layout_marginTop="@dimen/common_padding_large"/>
+
+</LinearLayout>

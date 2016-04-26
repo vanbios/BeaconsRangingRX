@@ -1,0 +1,49 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabsFrgMain"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/colorPrimary"
+        app:tabMode="scrollable"
+        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorHeight="3dp"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/white_gray"
+        app:tabTextAppearance="@style/TabsFont"
+        app:tabPaddingStart="@dimen/common_padding_medium"
+        app:tabPaddingEnd="@dimen/common_padding_medium"
+        app:tabPaddingTop="@dimen/common_padding_medium"
+        app:tabPaddingBottom="@dimen/common_padding_medium"
+        android:paddingLeft="@dimen/common_padding_medium"
+        android:paddingRight="@dimen/common_padding_medium"/>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tabsFrgMain">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/toolbar_drop_shadow" />
+
+    </FrameLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pagerFrgMain"
+        android:layout_below="@id/tabsFrgMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</RelativeLayout>

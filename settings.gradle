@@ -1,0 +1,4 @@
+include ':app'
+rootProject.name = 'com.xelentec.ibeacons'
+rootProject.name = 'ibeacons'
+

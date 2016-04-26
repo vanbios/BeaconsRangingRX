@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.vanbios.beaconsranging.MainActivity">
+    <item
+        android:id="@+id/action_clean_db_ads_enter"
+        android:icon="@drawable/ic_action_delete_db"
+        android:title="Clean DB"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_clean_db_logs"
+        android:icon="@drawable/ic_action_clean_db_logs"
+        android:title="Clean Logs"
+        app:showAsAction="ifRoom"/>
+</menu>

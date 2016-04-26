@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/major"
+        style="@style/TitleFontBlack"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etFrgTransmittingMajor"
+        style="@style/TitleFontBlack"
+        android:hint="@string/type_major_value"
+        android:inputType="number"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/minor"
+        style="@style/TitleFontBlack"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etFrgTransmittingMinor"
+        style="@style/TitleFontBlack"
+        android:hint="@string/type_minor_value"
+        android:inputType="number"/>
+
+
+    <LinearLayout
+        android:id="@+id/linLayTransmittingButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@+id/linLayLogButtons"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:id="@+id/tvFrgTransmittingEnableTransmitting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/enable_transmitting"
+            android:background="@drawable/rounded_blue"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginRight="4dp"/>
+
+        <TextView
+            android:id="@+id/tvFrgTransmittingDisableTransmitting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/disable_transmitting"
+            android:background="@drawable/rounded_blue"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:layout_marginLeft="4dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
