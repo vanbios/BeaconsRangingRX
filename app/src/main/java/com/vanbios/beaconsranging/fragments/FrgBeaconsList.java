@@ -91,7 +91,7 @@ public class FrgBeaconsList extends Fragment {
     }
 
     @Override
-    public void onStop() {
+    public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
     }

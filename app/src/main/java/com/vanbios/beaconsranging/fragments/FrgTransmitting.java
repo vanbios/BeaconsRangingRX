@@ -12,6 +12,8 @@ import com.vanbios.beaconsranging.R;
 import com.vanbios.beaconsranging.simulate.TransmittingBeaconSimulator;
 import com.vanbios.beaconsranging.util.ToastUtils;
 
+import static butterknife.ButterKnife.findById;
+
 /**
  * Created by Ihor Bilous on 29.12.2015.
  */
@@ -29,10 +31,10 @@ public class FrgTransmitting extends Fragment {
     }
 
     private void initViews() {
-        TextView tvEnableTransmitting = (TextView) view.findViewById(R.id.tvFrgTransmittingEnableTransmitting);
-        TextView tvDisableTransmitting = (TextView) view.findViewById(R.id.tvFrgTransmittingDisableTransmitting);
-        final EditText etMajor = (EditText) view.findViewById(R.id.etFrgTransmittingMajor);
-        final EditText etMinor = (EditText) view.findViewById(R.id.etFrgTransmittingMinor);
+        TextView tvEnableTransmitting = findById(view, R.id.tvFrgTransmittingEnableTransmitting);
+        TextView tvDisableTransmitting = findById(view, R.id.tvFrgTransmittingDisableTransmitting);
+        final EditText etMajor = findById(view, R.id.etFrgTransmittingMajor);
+        final EditText etMinor = findById(view, R.id.etFrgTransmittingMinor);
 
         tvEnableTransmitting.setOnClickListener(v -> {
             if (transmittingBeaconSimulator == null)
