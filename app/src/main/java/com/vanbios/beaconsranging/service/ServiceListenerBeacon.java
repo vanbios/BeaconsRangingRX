@@ -67,81 +67,73 @@ public class ServiceListenerBeacon extends Service {
         region = new Region(REGION, null, null, null);
         beaconManager = new BeaconManager(this);
 
-        beaconManager.setRangingListener(new com.estimote.sdk.BeaconManager.RangingListener() {
-            @Override
-            public void onBeaconsDiscovered(com.estimote.sdk.Region region, List<Beacon> list) {
-                List<Beacon> list1 = new ArrayList<>();
-                List<Beacon> list2 = new ArrayList<>();
+        beaconManager.setRangingListener((region1, list) -> {
+            List<Beacon> list1 = new ArrayList<>();
+            List<Beacon> list2 = new ArrayList<>();
 
-                if (!previousBeaconsList.isEmpty() && !list.isEmpty()) {
-                    list1.addAll(previousBeaconsList);
-                    list2.addAll(list);
-                    Collection<Beacon> col1 = new ArrayList<>(list1);
-                    Collection<Beacon> col2 = new ArrayList<>(list2);
+            if (!previousBeaconsList.isEmpty() && !list.isEmpty()) {
+                list1.addAll(previousBeaconsList);
+                list2.addAll(list);
+                Collection<Beacon> col1 = new ArrayList<>(list1);
+                Collection<Beacon> col2 = new ArrayList<>(list2);
 
-                    list1.removeAll(col2);
-                    list2.removeAll(col1);
+                list1.removeAll(col2);
+                list2.removeAll(col1);
 
-                    if (!list1.isEmpty()) {
-                        // log exit beacon zones info
-                        for (Beacon beacon : list1) {
-                            logBeaconZoneInfoToDB(beacon, BeaconZoneLogInfo.EXIT);
-                        }
-                    }
-
-                    if (!list2.isEmpty()) {
-                        // log enter beacon zones info
-                        for (Beacon beacon : list2) {
-                            logBeaconZoneInfoToDB(beacon, BeaconZoneLogInfo.ENTER);
-                        }
-                    }
-                } else if (!previousBeaconsList.isEmpty()) {
+                if (!list1.isEmpty()) {
                     // log exit beacon zones info
-                    for (Beacon beacon : previousBeaconsList) {
+                    for (Beacon beacon : list1) {
                         logBeaconZoneInfoToDB(beacon, BeaconZoneLogInfo.EXIT);
                     }
-                } else if (!list.isEmpty()) {
+                }
+
+                if (!list2.isEmpty()) {
                     // log enter beacon zones info
-                    for (Beacon beacon : list) {
+                    for (Beacon beacon : list2) {
                         logBeaconZoneInfoToDB(beacon, BeaconZoneLogInfo.ENTER);
                     }
                 }
-
-                previousBeaconsList.clear();
-                previousBeaconsList.addAll(list);
-
-                ArrayList<BeaconRangeInfo> beaconRangeList = new ArrayList<>();
-                if (!list.isEmpty()) {
-                    for (Beacon beacon : list) {
-                        listenAdsBeacons(beacon);
-                        listenEnterBeacons(beacon);
-
-                        String uuid = beacon.getProximityUUID().toString();
-                        int major = beacon.getMajor();
-                        int minor = beacon.getMinor();
-                        int rssi = beacon.getRssi();
-                        int power = beacon.getMeasuredPower();
-
-                        beaconRangeList.add(new BeaconRangeInfo(
-                                String.format(getString(R.string.placeholder_beacons_info_list),
-                                        uuid, major, minor, rssi, power), rssi));
-                    }
+            } else if (!previousBeaconsList.isEmpty()) {
+                // log exit beacon zones info
+                for (Beacon beacon : previousBeaconsList) {
+                    logBeaconZoneInfoToDB(beacon, BeaconZoneLogInfo.EXIT);
                 }
-
-                InfoSingleton.getInstance().setBeaconsRangeList(beaconRangeList);
-
-                Intent intent = new Intent(FrgBeaconsList.BROADCAST_FRG_BEACONS_LIST);
-                intent.putExtra(FrgBeaconsList.PARAM_STATUS_FRG_BEACONS_LIST, FrgBeaconsList.STATUS_BEACONS_LIST_UPDATED);
-                context.sendBroadcast(intent);
+            } else if (!list.isEmpty()) {
+                // log enter beacon zones info
+                for (Beacon beacon : list) {
+                    logBeaconZoneInfoToDB(beacon, BeaconZoneLogInfo.ENTER);
+                }
             }
+
+            previousBeaconsList.clear();
+            previousBeaconsList.addAll(list);
+
+            ArrayList<BeaconRangeInfo> beaconRangeList = new ArrayList<>();
+            if (!list.isEmpty()) {
+                for (Beacon beacon : list) {
+                    listenAdsBeacons(beacon);
+                    listenEnterBeacons(beacon);
+
+                    String uuid = beacon.getProximityUUID().toString();
+                    int major = beacon.getMajor();
+                    int minor = beacon.getMinor();
+                    int rssi = beacon.getRssi();
+                    int power = beacon.getMeasuredPower();
+
+                    beaconRangeList.add(new BeaconRangeInfo(
+                            String.format(getString(R.string.placeholder_beacons_info_list),
+                                    uuid, major, minor, rssi, power), rssi));
+                }
+            }
+
+            InfoSingleton.getInstance().setBeaconsRangeList(beaconRangeList);
+
+            Intent intent = new Intent(FrgBeaconsList.BROADCAST_FRG_BEACONS_LIST);
+            intent.putExtra(FrgBeaconsList.PARAM_STATUS_FRG_BEACONS_LIST, FrgBeaconsList.STATUS_BEACONS_LIST_UPDATED);
+            context.sendBroadcast(intent);
         });
 
-        beaconManager.connect(new com.estimote.sdk.BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                beaconManager.startRanging(region);
-            }
-        });
+        beaconManager.connect(() -> beaconManager.startRanging(region));
     }
 
     private void logBeaconZoneInfoToDB(Beacon beacon, int state) {
@@ -183,7 +175,7 @@ public class ServiceListenerBeacon extends Service {
                                         beacon.getMajor(),
                                         beacon.getMinor(),
                                         false));
-                        int visibility = StoreEntryLogInfo.UNVISIBLE;
+                        int visibility = StoreEntryLogInfo.INVISIBLE;
                         if (!InfoSingleton.getInstance().getDataSourceLocal().isNotifyEnter(beacon.getMajor(),
                                 beacon.getMinor())) {
                             //ok
@@ -224,7 +216,7 @@ public class ServiceListenerBeacon extends Service {
                         String message = banner == null ? "" : banner.getText();
 
                         //ignore
-                        int visibility = AdvertisingLogInfo.UNVISIBLE;
+                        int visibility = AdvertisingLogInfo.INVISIBLE;
                         if (!InfoSingleton.getInstance().getDataSourceLocal().isNotifyAds(beacon.getMajor(),
                                 beacon.getMinor())) {
                             //ok

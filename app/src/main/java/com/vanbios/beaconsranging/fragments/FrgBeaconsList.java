@@ -22,6 +22,11 @@ import com.vanbios.beaconsranging.util.BeaconRangeInfoComparator;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import butterknife.BindView;
+import butterknife.Unbinder;
+
+import static butterknife.ButterKnife.bind;
+
 /**
  * Created by Ihor Bilous on 29.12.2015.
  */
@@ -33,10 +38,13 @@ public class FrgBeaconsList extends Fragment {
     private BroadcastReceiver broadcastReceiver;
 
     private View view;
-    private TextView tvEmptyList;
-    private RecyclerView recyclerView;
+    @BindView(R.id.tvFrgBeaconsListEmpty)
+    TextView tvEmptyList;
+    @BindView(R.id.recyclerFrgBeaconsList)
+    RecyclerView recyclerView;
     private BeaconsRangeRecyclerAdapter recyclerAdapter;
     private ArrayList<BeaconRangeInfo> beaconsList;
+    private Unbinder unbinder;
 
 
     @Override
@@ -51,9 +59,7 @@ public class FrgBeaconsList extends Fragment {
     }
 
     private void initViews() {
-        tvEmptyList = (TextView) view.findViewById(R.id.tvFrgBeaconsListEmpty);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerFrgBeaconsList);
+        unbinder = bind(this, view);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new BeaconsRangeRecyclerAdapter(beaconsList);
         recyclerView.setAdapter(recyclerAdapter);
@@ -88,5 +94,11 @@ public class FrgBeaconsList extends Fragment {
     public void onStop() {
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

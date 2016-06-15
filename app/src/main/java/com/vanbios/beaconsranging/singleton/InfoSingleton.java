@@ -11,18 +11,21 @@ import com.vanbios.beaconsranging.objects.IBeaconBase;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import lombok.Getter;
+
 /**
  * Created by Ihor Bilous on 11.12.2015.
  */
 public class InfoSingleton {
 
     private static volatile InfoSingleton instance;
-    private DataSourceLocal dataSourceLocal;
-    private DataSourceBeacons dataSourceBeacons;
+    @Getter private DataSourceLocal dataSourceLocal;
+    @Getter private DataSourceBeacons dataSourceBeacons;
     private HashSet<Long> beaconSet;
-    private ArrayList<IBeaconBase> entryList, advertisingList;
+    @Getter private ArrayList<IBeaconBase> entryList;
+    @Getter private ArrayList<IBeaconBase> advertisingList;
     private ArrayList<Banner> bannersList;
-    private ArrayList<BeaconRangeInfo> beaconsRangeList;
+    @Getter private ArrayList<BeaconRangeInfo> beaconsRangeList;
 
     private InfoSingleton() {
         dataSourceLocal = new DataSourceLocal(AppController.getContext());
@@ -36,26 +39,6 @@ public class InfoSingleton {
 
     public boolean addToBeaconSet(long beaconId) {
         return beaconSet.add(beaconId);
-    }
-
-    public DataSourceLocal getDataSourceLocal() {
-        return dataSourceLocal;
-    }
-
-    public DataSourceBeacons getDataSourceBeacons() {
-        return dataSourceBeacons;
-    }
-
-    public ArrayList<IBeaconBase> getEntryList() {
-        return entryList;
-    }
-
-    public ArrayList<IBeaconBase> getAdvertisingList() {
-        return advertisingList;
-    }
-
-    public ArrayList<BeaconRangeInfo> getBeaconsRangeList() {
-        return beaconsRangeList;
     }
 
     public void setBeaconsRangeList(ArrayList<BeaconRangeInfo> list) {

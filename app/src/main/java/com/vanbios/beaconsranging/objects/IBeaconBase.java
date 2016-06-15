@@ -1,13 +1,19 @@
 package com.vanbios.beaconsranging.objects;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * Created by Ihor Bilous on 11.01.2016.
  */
+
+@AllArgsConstructor
+@Getter
 public class IBeaconBase {
     private int idBeacon, major, minor, idStore, floor, idTradeCenter, rssiLimit;
     private String storeName, tradeCenterName, address;
 
-    public IBeaconBase(int idBeacon, int major, int minor, int idStore, int floor, int idTradeCenter,
+    /*public IBeaconBase(int idBeacon, int major, int minor, int idStore, int floor, int idTradeCenter,
                        int rssiLimit, String storeName, String tradeCenterName, String address) {
         this.idBeacon = idBeacon;
         this.major = major;
@@ -59,5 +65,5 @@ public class IBeaconBase {
 
     public String getAddress() {
         return address;
-    }
+    }*/
 }

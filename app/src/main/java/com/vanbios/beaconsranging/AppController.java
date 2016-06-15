@@ -44,13 +44,8 @@ public class AppController extends Application {
         Log.d(TAG, "App started up");
         prepareBeaconsDB();
         beaconManager = new BeaconManager(getApplicationContext());
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-            @Override
-            public void onServiceReady() {
-                beaconManager.startMonitoring(
-                        new Region("monitored region", null, null, null));
-            }
-        });
+        beaconManager.connect(() -> beaconManager.startMonitoring(
+                new Region("monitored region", null, null, null)));
 
         beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
             @Override

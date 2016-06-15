@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import com.vanbios.beaconsranging.R;
 import com.vanbios.beaconsranging.adapters.ViewPagerFragmentAdapter;
 
+import static butterknife.ButterKnife.findById;
+
 
 /**
  * Created by Ihor Bilous on 09.12.2015.
@@ -26,7 +28,7 @@ public class FrgMain extends CommonFragment {
     }
 
     private void setViewPager() {
-        ViewPager pager = (ViewPager) view.findViewById(R.id.pagerFrgMain);
+        ViewPager pager = findById(view, R.id.pagerFrgMain);
         ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getChildFragmentManager());
         adapterPager.addFragment(new FrgBeaconsList(), getResources().getString(R.string.tab_beacons_list));
         adapterPager.addFragment(FrgLogs.newInstance(1), getResources().getString(R.string.tab_entry_exit_stores));
@@ -38,7 +40,7 @@ public class FrgMain extends CommonFragment {
         pager.setAdapter(adapterPager);
         pager.setOffscreenPageLimit(6);
 
-        TabLayout tabs = (TabLayout) view.findViewById(R.id.tabsFrgMain);
+        TabLayout tabs = findById(view, R.id.tabsFrgMain);
         tabs.setupWithViewPager(pager);
     }
 

@@ -1,21 +1,28 @@
 package com.vanbios.beaconsranging.objects;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by Ihor Bilous on 09.12.2015.
  */
+
+@AllArgsConstructor
+@Getter
+@Setter
 public class IBeaconAds {
     private String UUID;
-    private int minor;
-    private int major;
+    private int minor, major;
     private boolean isNotify;
 
 
-    public IBeaconAds(String UUID,  int major, int minor, boolean isNotify) {
+    /*public IBeaconAds(String UUID,  int major, int minor, boolean isNotify) {
         this.UUID = UUID;
         this.minor = minor;
         this.major = major;
         this.isNotify = isNotify;
-    }
+    }*/
 
     public IBeaconAds(String UUID, int minor, int major) {
         this.UUID = UUID;
@@ -30,7 +37,7 @@ public class IBeaconAds {
                 this.minor == (((IBeaconAds) o ).minor));
     }
 
-    public int getMajor() {
+    /*public int getMajor() {
         return major;
     }
 
@@ -60,6 +67,6 @@ public class IBeaconAds {
 
     public void setIsNotify(boolean isNotifyAds) {
         this.isNotify = isNotifyAds;
-    }
+    }*/
 
 }

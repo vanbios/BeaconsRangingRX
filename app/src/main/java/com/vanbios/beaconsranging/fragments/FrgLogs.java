@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.vanbios.beaconsranging.R;
@@ -24,6 +23,11 @@ import com.vanbios.beaconsranging.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import butterknife.BindView;
+import butterknife.Unbinder;
+
+import static butterknife.ButterKnife.bind;
 
 /**
  * Created by Ihor Bilous on 15.01.2016.
@@ -37,9 +41,14 @@ public class FrgLogs extends Fragment {
     private static final String ARG_FRG_TYPE = "arg_frg_type";
     private int type;
     private View view;
-    private TextView tvDate, tvEmptyList;
+    @BindView(R.id.tvFrgLogsDate)
+    TextView tvDate;
+    @BindView(R.id.tvFrgLogsEmpty)
+    TextView tvEmptyList;
+    @BindView(R.id.recyclerFrgLogs)
+    RecyclerView recyclerView;
+    private Unbinder unbinder;
     private DatePickerDialog datePickerDialog;
-    private RecyclerView recyclerView;
     private LogsRecyclerAdapter recyclerAdapter;
     private BroadcastReceiver broadcastReceiver;
     private static Calendar calendar;
@@ -75,10 +84,7 @@ public class FrgLogs extends Fragment {
 
 
     private void initViews() {
-        tvDate = (TextView) view.findViewById(R.id.tvFrgLogsDate);
-        tvEmptyList = (TextView) view.findViewById(R.id.tvFrgLogsEmpty);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerFrgLogs);
+        unbinder = bind(this, view);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new LogsRecyclerAdapter(logList);
         recyclerView.setAdapter(recyclerAdapter);
@@ -88,26 +94,19 @@ public class FrgLogs extends Fragment {
         Calendar newCalendar = Calendar.getInstance();
         tvDate.setText(DateUtils.dateToString(newCalendar.getTime()));
 
-        datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                Calendar newDate = Calendar.getInstance();
-                newDate.set(year, monthOfYear, dayOfMonth);
-                if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
-                    ToastUtils.showClosableToast(getActivity(), getString(R.string.date_cant_be_future), 1);
-                } else {
-                    tvDate.setText(DateUtils.dateToString(newDate.getTime()));
-                    showLogByDate(newDate.getTimeInMillis());
-                    calendar = newDate;
-                }
+        datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth);
+            if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
+                ToastUtils.showClosableToast(getActivity(), getString(R.string.date_cant_be_future), 1);
+            } else {
+                tvDate.setText(DateUtils.dateToString(newDate.getTime()));
+                showLogByDate(newDate.getTimeInMillis());
+                calendar = newDate;
             }
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-        tvDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.show();
-            }
-        });
+        tvDate.setOnClickListener(v -> datePickerDialog.show());
     }
 
     private void showLogByDate(long datetime) {
@@ -155,5 +154,11 @@ public class FrgLogs extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

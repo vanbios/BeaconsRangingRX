@@ -14,15 +14,23 @@ import com.vanbios.beaconsranging.objects.IBeaconBase;
 import com.vanbios.beaconsranging.singleton.InfoSingleton;
 import com.vanbios.beaconsranging.util.ToastUtils;
 
+import butterknife.BindView;
+import butterknife.Unbinder;
+
+import static butterknife.ButterKnife.bind;
+import static butterknife.ButterKnife.findById;
+
 /**
  * Created by Ihor Bilous on 29.12.2015.
  */
 public class FrgSearch extends Fragment {
 
     private View view;
-    private TextView tvResult;
-    private RadioButton rbEntry;
-    private EditText etMajor, etMinor;
+    @BindView(R.id.tvFrgSearchResult) TextView tvResult;
+    @BindView(R.id.rbFrgSearchEntry) RadioButton rbEntry;
+    @BindView(R.id.etFrgSearchMajor) EditText etMajor;
+    @BindView(R.id.etFrgSearchMinor) EditText etMinor;
+    private Unbinder unbinder;
     public static final int ENTRY = 1, ADVERTISING = 2;
 
     @Override
@@ -34,24 +42,11 @@ public class FrgSearch extends Fragment {
     }
 
     private void initViews() {
-        etMajor = (EditText) view.findViewById(R.id.etFrgSearchMajor);
-        etMinor = (EditText) view.findViewById(R.id.etFrgSearchMinor);
-        rbEntry = (RadioButton) view.findViewById(R.id.rbFrgSearchEntry);
-        tvResult = (TextView) view.findViewById(R.id.tvFrgSearchResult);
-        TextView tvBeacon = (TextView) view.findViewById(R.id.tvFrgSearchBeacon);
-        TextView tvStore = (TextView) view.findViewById(R.id.tvFrgSearchStore);
-        tvBeacon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchBeacon(1);
-            }
-        });
-        tvStore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchBeacon(2);
-            }
-        });
+        unbinder = bind(this, view);
+        TextView tvBeacon = findById(view, R.id.tvFrgSearchBeacon);
+        TextView tvStore = findById(view, R.id.tvFrgSearchStore);
+        tvBeacon.setOnClickListener(v -> searchBeacon(1));
+        tvStore.setOnClickListener(v -> searchBeacon(2));
     }
 
     private void searchBeacon(int mode) {
@@ -102,5 +97,11 @@ public class FrgSearch extends Fragment {
     private boolean validateValues(String strMaj, String strMin) {
         return (strMaj != null && strMin != null
                 && strMaj.length() > 0 && strMin.length() > 0);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

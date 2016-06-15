@@ -34,37 +34,31 @@ public class FrgTransmitting extends Fragment {
         final EditText etMajor = (EditText) view.findViewById(R.id.etFrgTransmittingMajor);
         final EditText etMinor = (EditText) view.findViewById(R.id.etFrgTransmittingMinor);
 
-        tvEnableTransmitting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (transmittingBeaconSimulator == null)
-                    transmittingBeaconSimulator = new TransmittingBeaconSimulator(getActivity());
+        tvEnableTransmitting.setOnClickListener(v -> {
+            if (transmittingBeaconSimulator == null)
+                transmittingBeaconSimulator = new TransmittingBeaconSimulator(getActivity());
 
-                String strMaj = etMajor.getText().toString();
-                String strMin = etMinor.getText().toString();
-                if (validateValues(strMaj, strMin)) {
-                    int minor = Integer.parseInt(strMin.length() >= 6 ? strMin.substring(0, 6) : strMin);
-                    int major = Integer.parseInt(strMaj.length() >= 6 ? strMaj.substring(0, 6) : strMaj);
+            String strMaj = etMajor.getText().toString();
+            String strMin = etMinor.getText().toString();
+            if (validateValues(strMaj, strMin)) {
+                int minor = Integer.parseInt(strMin.length() >= 6 ? strMin.substring(0, 6) : strMin);
+                int major = Integer.parseInt(strMaj.length() >= 6 ? strMaj.substring(0, 6) : strMaj);
 
-                    transmittingBeaconSimulator.setMajor(major);
-                    transmittingBeaconSimulator.setMinor(minor);
+                transmittingBeaconSimulator.setMajor(major);
+                transmittingBeaconSimulator.setMinor(minor);
 
-                    boolean enable = transmittingBeaconSimulator.startTransmitting();
-                    ToastUtils.showClosableToast(getActivity(),
-                            enable ? "Эмуляция включена" : "Эмуляция не поддерживается на данном девайсе", 2);
-                } else
-                    ToastUtils.showClosableToast(getActivity(), getString(R.string.type_correct_major_minor), 2);
-            }
+                boolean enable = transmittingBeaconSimulator.startTransmitting();
+                ToastUtils.showClosableToast(getActivity(),
+                        enable ? "Эмуляция включена" : "Эмуляция не поддерживается на данном девайсе", 2);
+            } else
+                ToastUtils.showClosableToast(getActivity(), getString(R.string.type_correct_major_minor), 2);
         });
 
-        tvDisableTransmitting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean disable = transmittingBeaconSimulator != null
-                        && transmittingBeaconSimulator.stopTransmitting();
-                ToastUtils.showClosableToast(getActivity(),
-                        disable ? "Эмуляция выключена" : "Эмуляция еще не включена", 2);
-            }
+        tvDisableTransmitting.setOnClickListener(v -> {
+            boolean disable = transmittingBeaconSimulator != null
+                    && transmittingBeaconSimulator.stopTransmitting();
+            ToastUtils.showClosableToast(getActivity(),
+                    disable ? "Эмуляция выключена" : "Эмуляция еще не включена", 2);
         });
     }
 

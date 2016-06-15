@@ -11,6 +11,8 @@ import com.vanbios.beaconsranging.objects.LogBase;
 
 import java.util.ArrayList;
 
+import static butterknife.ButterKnife.findById;
+
 /**
  * Created by Ihor Bilous on 27.01.2016.
  */
@@ -64,13 +66,13 @@ public class LogsRecyclerAdapter extends RecyclerView.Adapter<LogsRecyclerAdapte
 
     private static class ViewHolderGreen extends MainViewHolder {
         public ViewHolderGreen(View view) {
-            super(view, (TextView) view.findViewById(R.id.tvItemLogGreen));
+            super(view, findById(view, R.id.tvItemLogGreen));
         }
     }
 
     private static class ViewHolderRed extends MainViewHolder {
         public ViewHolderRed(View view) {
-            super(view, (TextView) view.findViewById(R.id.tvItemLogRed));
+            super(view, findById(view, R.id.tvItemLogRed));
         }
     }
 }

@@ -11,6 +11,8 @@ import com.vanbios.beaconsranging.objects.BeaconRangeInfo;
 
 import java.util.ArrayList;
 
+import static butterknife.ButterKnife.findById;
+
 /**
  * Created by Ihor Bilous on 28.01.2016.
  */
@@ -68,19 +70,19 @@ public class BeaconsRangeRecyclerAdapter extends RecyclerView.Adapter<BeaconsRan
 
     private static class ViewHolderGreen extends MainViewHolder {
         public ViewHolderGreen(View view) {
-            super(view, (TextView) view.findViewById(R.id.tvItemLogGreen));
+            super(view, findById(view, R.id.tvItemLogGreen));
         }
     }
 
     private static class ViewHolderRed extends MainViewHolder {
         public ViewHolderRed(View view) {
-            super(view, (TextView) view.findViewById(R.id.tvItemLogRed));
+            super(view, findById(view, R.id.tvItemLogRed));
         }
     }
 
     private static class ViewHolderYellow extends MainViewHolder {
         public ViewHolderYellow(View view) {
-            super(view, (TextView) view.findViewById(R.id.tvItemLogYellow));
+            super(view, findById(view, R.id.tvItemLogYellow));
         }
     }
 }

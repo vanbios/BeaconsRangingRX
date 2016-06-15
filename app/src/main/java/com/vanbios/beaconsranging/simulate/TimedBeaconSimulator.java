@@ -99,18 +99,16 @@ public class TimedBeaconSimulator implements BeaconSimulator {
             scheduleTaskExecutor= Executors.newScheduledThreadPool(5);
 
             // This schedules an beacon to appear every 10 seconds:
-            scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
-                public void run() {
-                    try{
-                        //putting a single beacon back into the beacons list.
-                        if (finalBeacons.size() > beacons.size())
-                            beacons.add(finalBeacons.get(beacons.size()));
-                        else
-                            scheduleTaskExecutor.shutdown();
+            scheduleTaskExecutor.scheduleAtFixedRate((Runnable) () -> {
+                try{
+                    //putting a single beacon back into the beacons list.
+                    if (finalBeacons.size() > beacons.size())
+                        beacons.add(finalBeacons.get(beacons.size()));
+                    else
+                        scheduleTaskExecutor.shutdown();
 
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
             }, 30, 10, TimeUnit.SECONDS);
         }
